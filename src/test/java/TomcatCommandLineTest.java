@@ -1,3 +1,7 @@
+/**
+ * Created by Hicham B.I. on 22/09/14.
+ */
+
 import org.apache.commons.cli.ParseException;
 import org.junit.Test;
 
@@ -16,7 +20,7 @@ public class TomcatCommandLineTest {
     }
 
     @Test
-    public void test_with_argument() throws ParseException {
+    public void test_with_arguments() throws ParseException {
         TomcatCommandLine tcl = new TomcatCommandLine(new String[]{"-p", "9999", "-d"});
         tcl.parse();
         assertThat(tcl.getPort()).isEqualTo(9999);
@@ -24,7 +28,7 @@ public class TomcatCommandLineTest {
     }
 
     @Test
-    public void test_fail_whith_bad_argument() {
+    public void test_fail_whith_bad_arguments() {
         TomcatCommandLine tcl = new TomcatCommandLine(new String[]{"-n", "noob"});
         try {
             tcl.parse();
