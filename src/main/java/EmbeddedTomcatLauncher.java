@@ -15,21 +15,22 @@ public class EmbeddedTomcatLauncher {
     public static void main(String[] args) throws Exception {
         String webappDirLocation = "src/main/webapp/";
 
-        Tomcat tomcat = new Tomcat();
         TomcatCommandLine commandLine = new TomcatCommandLine(args);
         commandLine.parse();
 
+        Tomcat tomcat = new Tomcat();
         configureTomcat(tomcat, webappDirLocation, commandLine.getPort());
         launchTomcat(tomcat, commandLine.isDaemon());
     }
 
     private static void configureTomcat(Tomcat tomcat, String webappDirLocation, Integer port) throws ServletException {
-        Context rootContext = tomcat.addWebapp("/", new File(webappDirLocation).getAbsolutePath());
-
+        tomcat.setBaseDir("tomcat"); // Must be the first instruction
         tomcat.setPort(port);
+        tomcat.enableNaming();
+
+        Context rootContext = tomcat.addWebapp("/", new File(webappDirLocation).getAbsolutePath());
         rootContext.setParentClassLoader(Thread.currentThread().getContextClassLoader());
 
-        tomcat.enableNaming();
 
         ContextResource contextResource = getContextResource();
         rootContext.getNamingResources().addResource(contextResource);
